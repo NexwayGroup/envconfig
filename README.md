@@ -1,14 +1,14 @@
 # envconfig
 
-[![Build Status](https://travis-ci.org/kelseyhightower/envconfig.png)](https://travis-ci.org/kelseyhightower/envconfig)
+[![Build Status](https://travis-ci.org/NexwayGroup/envconfig.png)](https://travis-ci.org/NexwayGroup/envconfig)
 
 ```Go
-import "github.com/kelseyhightower/envconfig"
+import "github.com/NexwayGroup/envconfig"
 ```
 
 ## Documentation
 
-See [godoc](http://godoc.org/github.com/kelseyhightower/envconfig)
+See [godoc](http://godoc.org/github.com/NexwayGroup/envconfig)
 
 ## Usage
 
@@ -30,7 +30,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/kelseyhightower/envconfig"
+    "github.com/NexwayGroup/envconfig"
 )
 
 type Specification struct {
