@@ -7,6 +7,7 @@ package envconfig
 import (
 	"os"
 	"testing"
+	"time"
 )
 
 type Specification struct {
@@ -16,6 +17,7 @@ type Specification struct {
 	User                         string
 	AdminUsers                   []string
 	MagicNumbers                 []int
+	Timeout                      time.Duration
 	MultiWordVar                 string
 	MultiWordVarWithAlt          string `envconfig:"MULTI_WORD_VAR_WITH_ALT"`
 	MultiWordVarWithLowerCaseAlt string `envconfig:"multi_word_var_with_lower_case_alt"`
@@ -35,6 +37,7 @@ func TestProcess(t *testing.T) {
 	os.Setenv("ENV_CONFIG_USER", "Kelsey")
 	os.Setenv("ENV_CONFIG_ADMINUSERS", "John,Adam,Will")
 	os.Setenv("ENV_CONFIG_MAGICNUMBERS", "5,10,20")
+	os.Setenv("ENV_CONFIG_TIMEOUT", "2m")
 	os.Setenv("SERVICE_HOST", "127.0.0.1")
 	os.Setenv("ENV_CONFIG_REQUIREDVAR", "foo")
 	err := Process("env_config", &s)
@@ -55,6 +58,9 @@ func TestProcess(t *testing.T) {
 	}
 	if s.User != "Kelsey" {
 		t.Errorf("expected %s, got %s", "Kelsey", s.User)
+	}
+	if s.Timeout != 2*time.Minute {
+		t.Errorf("expected %s, got %s", 2*time.Minute, s.Timeout)
 	}
 	if s.RequiredVar != "foo" {
 		t.Errorf("expected %s, got %s", "foo", s.RequiredVar)

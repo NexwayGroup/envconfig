@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"syscall"
+	"time"
 )
 
 // ErrInvalidSpecification indicates that a specification is of the wrong type.
@@ -115,7 +116,18 @@ func getParser(t reflect.Type, k reflect.Kind) (parser *fieldParser) {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		parser = &fieldParser{
 			Parse: func(v string) (interface{}, error) {
-				intValue, err := strconv.ParseInt(v, 0, t.Bits())
+				var (
+ 					intValue int64
+ 					err      error
+ 				)
+ 				if k == reflect.Int64 && t.PkgPath() == "time" && t.Name() == "Duration" {
+ 					var d time.Duration
+ 					d, err = time.ParseDuration(v)
+ 					intValue = int64(d)
+ 				} else {
+ 					intValue, err = strconv.ParseInt(v, 0, t.Bits())
+ 				}
+
 				if err != nil {
 					return nil, err
 				}
